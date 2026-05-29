@@ -30,6 +30,17 @@ body {
   padding: 0 20px;
 }
 
+/* Global Layout */
+.blog-wrapper {
+  min-height: 100vh;
+  transition: filter 0.5s ease-in-out;
+  background-color: #f9f9f9;
+}
+
+.blog-wrapper.is-up {
+  filter: invert(1);
+}
+
 /* Header Styles */
 .blog-header {
   background-color: #004d40; /* Emerald green like castle roof */

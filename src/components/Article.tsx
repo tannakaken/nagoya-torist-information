@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React from "react";
 
 type ArticleProps = {
   num: number;
@@ -208,46 +208,23 @@ const NagoyaCastle = ({ num }: ArticleProps) => {
   );
 };
 
-const Article: React.FC = () => {
-  /**
-   * scrollYを保持するための状態をuseRefで初期化する。
-   */
-  const scrollRef = useRef({
-    scrollY: 0,
-  });
-  const [scrollDirection, setScrollDirection] = React.useState<"up" | "down">(
-    "down",
-  );
-  /**
-   * スクロールの検知する。
-   */
-  const onScroll = useCallback(() => {
-    if (window.scrollY > scrollRef.current.scrollY) {
-      setScrollDirection("down");
-    } else if (window.scrollY < scrollRef.current.scrollY) {
-      setScrollDirection("up");
-    }
-    scrollRef.current.scrollY = window.scrollY;
-  }, [scrollRef]);
+type Props = {
+  scrollDirection: "up" | "down";
+}
 
-  // 登録と後始末
-  useEffect(() => {
-    document.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      document.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
-  console.warn("scrollDirection", scrollDirection);
+const Article: React.FC<Props> = ({ scrollDirection }) => {
   return (
     <article className="blog-post">
       <div className="container">
         <header className="post-header">
           <h2 className="post-title">
-            名古屋にはなんもない？ そんなことない！ 魅力あふれる観光スポット5選
+            {scrollDirection === "down" 
+              ? "名古屋にはなんもない？ そんなことない！ 魅力あふれる観光スポット5選" 
+              : "名古屋にはなんもない？ その通り！ 闇に包まれた禁断のスポット5選"}
           </h2>
           <div className="post-meta">
-            <span className="date">2024年5月9日</span>
-            <span className="category">観光案内</span>
+            <span className="date">{scrollDirection === "down" ? "2024年5月9日" : "0000年0月0日"}</span>
+            <span className="category">{scrollDirection === "down" ? "観光案内" : "禁忌の書"}</span>
           </div>
         </header>
 
